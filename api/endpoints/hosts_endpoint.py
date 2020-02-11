@@ -18,7 +18,9 @@ class HostSerializer(serializers.ModelSerializer):
         model = HostModel
         fields = ['id', 'ipv4_address', 'username', 'password', 'date_added', 'data']
         read_only_fields = ['data']
-        write_only_fields = ['password']
+        extra_kwargs = {
+            "password": {"write_only": True}
+        }
 
 
 class HostView(ModelViewSet):
@@ -27,23 +29,17 @@ class HostView(ModelViewSet):
     serializer_class = HostSerializer
 
     @action(detail=True, methods=["post"])
-    def get_host_users(self, request, pk=None):
+    def execute_bash_command(self, request, pk=None):
         host = self.get_object()
         root_password = decoders.decode_password(host.password)
-        client = ssh.get_ssh_client(ipv4_address=host.ipv4_address, root_user=host.username,
-                                    root_password=root_password)
-        user_data = ssh.execute_bash_command(client, command="get-users")
-        host.data["users"] = user_data
-        host.save()
-        return Response(data=user_data, status=status.HTTP_200_OK)
+        data = ssh.execute_bash_command(ipv4_address=host.ipv4_address,
+                                        root_user=host.username,
+                                        root_password=root_password,
+                                        command=request.data.get("command"))
+        if data.get("error"):
+            return Response(data, status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=True, methods=["post"])
-    def get_host_groups(self, request, pk=None):
-        host = self.get_object()
-        root_password = decoders.decode_password(host.password)
-        client = ssh.get_ssh_client(ipv4_address=host.ipv4_address, root_user=host.username,
-                                    root_password=root_password)
-        group_data = ssh.execute_bash_command(client, command="get-groups")
-        host.data["groups"] = group_data
+        host.data[request.data.get("property")] = data.get("output")
         host.save()
-        return Response(data=group_data, status=status.HTTP_200_OK)
+
+        return Response(data=data, status=status.HTTP_200_OK)

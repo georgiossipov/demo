@@ -4,11 +4,12 @@ from .lib import ssh, decoders
 def get_host_os_info(sender, instance, **kwargs):
     if not instance.date_added:
         password = decoders.decode_password(instance.password)
-        client = ssh.get_ssh_client(ipv4_address=instance.ipv4_address,
-                                    root_user=instance.username,
-                                    root_password=password)
-        if client:
-            instance.data = ssh.execute_bash_command(client, command='get-os-release-info')
-            client.close()
+        command = ssh.execute_bash_command(ipv4_address=instance.ipv4_address,
+                                           root_user=instance.username,
+                                           root_password=password,
+                                           command="get-os-release-infos")
+
+        data = command.get("output") if not command.get("error") else command.get("error")
+        instance.data = {"os": data}
 
     return instance

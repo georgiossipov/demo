@@ -10,6 +10,6 @@ def get_host_os_info(sender, instance, **kwargs):
                                            command="get-os-release-info")
 
         data = command.get("output") if not command.get("error") else command.get("error")
-        instance.data = {"os": data}
+        instance.data = data
 
     return instance

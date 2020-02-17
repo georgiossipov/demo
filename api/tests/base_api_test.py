@@ -1,15 +1,11 @@
-from django.db.models import signals
 from rest_framework.test import APITestCase
 from api.models import HostModel
-from ..signals import get_host_os_info
 
 
 class BaseAPITestCase(APITestCase):
 
     @classmethod
     def setUp(cls):
-
-        signals.pre_save.disconnect(sender=HostModel, receiver=get_host_os_info)
 
         cls.hosts = [
             HostModel.objects.create(ipv4_address='10.1.175.1'),

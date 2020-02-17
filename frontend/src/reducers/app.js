@@ -1,6 +1,6 @@
 import {combineReducers} from "redux";
-import app from "./app";
+import hosts from "./hosts";
 
 export default combineReducers({
-  app
+  hosts
 });

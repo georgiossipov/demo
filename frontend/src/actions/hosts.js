@@ -1,4 +1,4 @@
-import {Actions} from "../lib/constants";
+import {Actions} from "../constants";
 
 const getHosts = () => {
   return {
@@ -21,8 +21,50 @@ const getHostsFailure = (error) => {
   }
 };
 
+const setHostCommand = (hostId, command) => {
+  return {
+    type: Actions.SET_HOST_COMMAND,
+    payload: {
+      hostId,
+      command
+    }
+  }
+};
+
+const executeCommand = (hostId) => {
+  return {
+    type: Actions.EXECUTE_COMMAND,
+    payload: {
+      hostId
+    }
+  }
+};
+
+const executeCommandSuccess = (output) => {
+  return {
+    type: Actions.EXECUTE_COMMAND_SUCCESS,
+    payload: {
+      output
+    }
+  }
+};
+
+const executeCommandFailure = (error) => {
+  console.log(error);
+  return {
+    type: Actions.EXECUTE_COMMAND_FAILURE,
+    payload: {
+      error
+    }
+  }
+};
+
 export {
   getHosts,
   getHostsSuccess,
-  getHostsFailure
+  getHostsFailure,
+  setHostCommand,
+  executeCommand,
+  executeCommandSuccess,
+  executeCommandFailure
 }

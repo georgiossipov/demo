@@ -39,7 +39,7 @@ def format_os_release_info(command, output):
             k, v = prop.split("=")
             if k.lower() in fields:
                 value[k.lower()] = v.strip().replace("\"", "")
-    return {"os": value}
+    return value
 
 
 dispatch = {

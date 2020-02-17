@@ -1,82 +1,40 @@
-let FETCH_DEFAULTS = {
-  credentials: 'same-origin',
+let REQUEST_HEADERS = {
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
   },
 };
 
-const STATUS_CODES = {
-  NO_CONTENT: 204,
-};
-
-const JSON_CONTENT_TYPE_PATTERN = /application\/json/;
-
 class Fetcher {
-  static handleResponse(response) {
-    return Fetcher._isJson(response) ? Fetcher._parseJson(response) : response;
-  }
 
 
-  fetchJson(url, initOptions = {}) {
-    return this.fetch(url, initOptions)
-      .then(this._checkStatus.bind(this))
+  fetchJson(url, requestData = {}) {
+    return this.fetch(url, requestData)
       .then(response => response.json())
       .then(data => data);
   }
 
 
-  fetch(url, initOptions = {}) {
-    if (typeof url !== 'string') {
-      throw new Error('Fetcher: Missing mandatory parameter `url`');
-    }
-
-    return window.fetch(url, Object.assign({}, FETCH_DEFAULTS, initOptions));
+  fetch(url, requestData = {}) {
+    return fetch(url, Object.assign({}, REQUEST_HEADERS, requestData));
   }
 
 
-  get(url, initOptions = {}) {
-    return this.fetchJson(url, Object.assign({}, initOptions, {method: 'GET'}));
+  get(url, requestData = {}) {
+    return this.fetchJson(url, {method: 'GET'});
   }
 
 
-  post(url, initOptions = {}) {
-    return this.fetchJson(url, Object.assign({}, initOptions, {method: 'POST'}));
+  post(url, requestData = {}) {
+    return this.fetchJson(url, {method: 'POST'});
   }
 
-  put(url, initOptions = {}) {
-    return this.fetchJson(url, Object.assign({}, initOptions, {method: 'PUT'}));
+  patch(url, requestData = {}) {
+    return this.fetchJson(url, {method: 'PATCH', body: JSON.stringify(requestData)});
   }
 
-  update(url, initOptions = {}) {
-    return this.fetchJson(url, Object.assign({}, initOptions, {method: 'UPDATE'}));
-  }
-
-  patch(url, initOptions = {}) {
-    return this.fetchJson(url, Object.assign({}, initOptions, {method: 'PATCH'}));
-  }
-
-  delete(url, initOptions = {}) {
-    return this.fetchJson(url, Object.assign({}, initOptions, {method: 'DELETE'}));
-  }
-
-  _checkStatus(response) {
-    if (!response.ok) {
-      const error = new Error(response.statusText);
-      error.response = response;
-      throw error;
-    }
-
-    return response;
-  }
-
-  static _parseJson(response) {
-    return response.json();
-  }
-
-  static _isJson(response) {
-    const contentType = response.headers.get('content-type');
-    return contentType && contentType.match(JSON_CONTENT_TYPE_PATTERN) && response.status !== STATUS_CODES.NO_CONTENT;
+  delete(url, requestData = {}) {
+    return this.fetchJson(url, {method: 'DELETE'});
   }
 }
 export default new Fetcher();

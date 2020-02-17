@@ -1,7 +1,18 @@
-import {getHosts, getHostsSuccess, getHostsFailure} from "./hosts";
+import {
+  getHosts,
+  getHostsSuccess,
+  getHostsFailure,
+  setHostCommand,
+  executeCommand,
+  executeCommandSuccess,
+  executeCommandFailure} from "./hosts";
 
 export {
   getHosts,
   getHostsSuccess,
-  getHostsFailure
+  getHostsFailure,
+  setHostCommand,
+  executeCommand,
+  executeCommandSuccess,
+  executeCommandFailure
 }

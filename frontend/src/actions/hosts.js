@@ -21,6 +21,60 @@ const getHostsFailure = (error) => {
   }
 };
 
+const createHost = (formData) => {
+  return {
+    type: Actions.CREATE_HOST,
+    payload: {
+      formData
+    }
+  }
+};
+
+const createHostSuccess = (hostData) => {
+  return {
+    type: Actions.CREATE_HOST_SUCCESS,
+    payload: {
+      hostData
+    }
+  }
+};
+
+const createHostFailure = (error) => {
+  return {
+    type: Actions.CREATE_HOST_FAILURE,
+    payload: {
+      error
+    }
+  }
+};
+
+const deleteHost = (hostId) => {
+  return {
+    type: Actions.DELETE_HOST,
+    payload: {
+      hostId
+    }
+  }
+};
+
+const deleteHostSuccess = (hostId) => {
+  return {
+    type: Actions.DELETE_HOST_SUCCESS,
+    payload: {
+      hostId
+    }
+  }
+};
+
+const deleteHostFailure = (error) => {
+  return {
+    type: Actions.DELETE_HOST_FAILURE,
+    payload: {
+      error
+    }
+  }
+};
+
 const setHostCommand = (hostId, command) => {
   return {
     type: Actions.SET_HOST_COMMAND,
@@ -40,17 +94,17 @@ const executeCommand = (hostId) => {
   }
 };
 
-const executeCommandSuccess = (output) => {
+const executeCommandSuccess = (hostId, output) => {
   return {
     type: Actions.EXECUTE_COMMAND_SUCCESS,
     payload: {
+      hostId,
       output
     }
   }
 };
 
 const executeCommandFailure = (error) => {
-  console.log(error);
   return {
     type: Actions.EXECUTE_COMMAND_FAILURE,
     payload: {
@@ -59,12 +113,28 @@ const executeCommandFailure = (error) => {
   }
 };
 
+const showHostForm = (open) => {
+  return {
+    type: Actions.SHOW_HOST_FORM,
+    payload: {
+      open
+    }
+  }
+};
+
 export {
   getHosts,
   getHostsSuccess,
   getHostsFailure,
+  createHost,
+  createHostSuccess,
+  createHostFailure,
+  deleteHost,
+  deleteHostSuccess,
+  deleteHostFailure,
   setHostCommand,
   executeCommand,
   executeCommandSuccess,
-  executeCommandFailure
+  executeCommandFailure,
+  showHostForm
 }

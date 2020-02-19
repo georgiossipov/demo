@@ -2,17 +2,32 @@ import {
   getHosts,
   getHostsSuccess,
   getHostsFailure,
+  createHost,
+  createHostSuccess,
+  createHostFailure,
+  deleteHost,
+  deleteHostSuccess,
+  deleteHostFailure,
   setHostCommand,
   executeCommand,
   executeCommandSuccess,
-  executeCommandFailure} from "./hosts";
+  executeCommandFailure,
+  showHostForm
+} from "./hosts";
 
 export {
   getHosts,
   getHostsSuccess,
   getHostsFailure,
+  createHost,
+  createHostSuccess,
+  createHostFailure,
+  deleteHost,
+  deleteHostSuccess,
+  deleteHostFailure,
   setHostCommand,
   executeCommand,
   executeCommandSuccess,
-  executeCommandFailure
+  executeCommandFailure,
+  showHostForm
 }

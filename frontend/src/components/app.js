@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {getHosts, executeCommand, setHostCommand} from "../actions";
+import {getHosts, executeCommand, setHostCommand, showHostForm, createHost, deleteHost} from "../actions";
 import LandingPage from "./landingPage";
-import HostList from "./lists/hosts";
-import UserList from "./lists/users";
+import HostList from "./lists/hostList";
 
 import {Menu} from "semantic-ui-react";
 
@@ -18,6 +17,9 @@ class App extends Component {
 
     this.executeCommandOnHost = this.executeCommandOnHost.bind(this);
     this.setCommandOnHost = this.setCommandOnHost.bind(this);
+    this.showHostForm = this.showHostForm.bind(this);
+    this.submitHostForm = this.submitHostForm.bind(this);
+    this.deleteHost = this.deleteHost.bind(this);
   }
 
   componentDidMount() {
@@ -32,6 +34,18 @@ class App extends Component {
     this.props.executeCommand(hostId);
   }
 
+  showHostForm(open) {
+    this.props.showHostForm(open);
+  }
+
+  submitHostForm(formData) {
+    this.props.createHost(formData);
+  }
+
+  deleteHost(hostId) {
+    this.props.deleteHost(hostId);
+  }
+
   render() {
 
     return (
@@ -44,12 +58,9 @@ class App extends Component {
                 as={NavLink}
                 to="/hosts"
               />
-              <Menu.Item
-                name="Users"
-                as={NavLink}
-                to="/users"
-              />
             </Menu>
+          </div>
+          <div className="app-content">
             <Switch>
               <Route path="/" component={LandingPage} exact/>
               <Route
@@ -60,11 +71,13 @@ class App extends Component {
                     actions={
                       {
                         executeCommandOnHost: this.executeCommandOnHost,
-                        setCommandOnHost: this.setCommandOnHost
+                        setCommandOnHost: this.setCommandOnHost,
+                        showHostForm: this.showHostForm,
+                        submitHostForm: this.submitHostForm,
+                        deleteHost: this.deleteHost
                       }
                     }
                   />}/>
-              <Route path="/users" component={() => <UserList hosts={this.props.hosts} />}/>
             </Switch>
           </div>
         </Router>
@@ -86,7 +99,10 @@ function matchDispatchToProps(dispatch) {
   return bindActionCreators({
     getHosts,
     executeCommand,
-    setHostCommand
+    setHostCommand,
+    showHostForm,
+    createHost,
+    deleteHost
   }, dispatch)
 }
 

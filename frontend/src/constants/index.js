@@ -1,5 +1,5 @@
 import {Actions} from "./actions";
-import {hostProperties} from "./host_properties";
+import {hostProperties} from "./hostProperties";
 
 export {
   Actions,

@@ -32,15 +32,19 @@ class HostView(ModelViewSet):
     def execute_bash_command(self, request, pk=None):
         host = self.get_object()
         request_data = request.data
+        host_property = request_data.get("property")
         root_password = decoders.decode_password(host.password)
         data = ssh.execute_bash_command(ipv4_address=host.ipv4_address,
                                         root_user=host.username,
                                         root_password=root_password,
                                         command=request_data.get("command"))
+
+        command_output = data.get("output")
+
         if data.get("error"):
             return Response(data, status.HTTP_400_BAD_REQUEST)
 
-        host.data[request_data.get("property")] = data.get("output")
+        host.data[host_property] = command_output
         host.save()
 
-        return Response(data=data, status=status.HTTP_200_OK)
+        return Response(data={host_property: command_output}, status=status.HTTP_200_OK)

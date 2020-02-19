@@ -3,7 +3,9 @@ import React, {Component} from 'react';
 class LandingPage extends Component {
   render() {
     return (
-      <div>Landing page</div>
+      <div className="image-container">
+        <div className="landing-image"/>
+      </div>
     )
   }
 }

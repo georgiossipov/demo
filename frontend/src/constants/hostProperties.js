@@ -7,8 +7,7 @@ export const hostProperties = {
     "date_added",
     "data",
     "host_command",
-    "pending",
-    "error"
+    "pending"
   ],
   commands: [
     {
@@ -31,5 +30,8 @@ export const hostProperties = {
     "get-os-release-info": "os",
     "get-users": "users",
     "get-groups": "groups"
+  },
+  form: {
+    open: false
   }
 };

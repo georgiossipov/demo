@@ -10,8 +10,12 @@ class Fetcher {
 
   fetchJson(url, requestData = {}) {
     return this.fetch(url, requestData)
-      .then(response => response.json())
-      .then(data => data);
+      .then(response => {
+        return response.status === 204 ? {} : response.json();
+      })
+      .then(data => {
+        return data
+      });
   }
 
 
@@ -20,21 +24,21 @@ class Fetcher {
   }
 
 
-  get(url, requestData = {}) {
-    return this.fetchJson(url, {method: 'GET'});
+  get(url) {
+    return this.fetchJson(url, {method: "GET"});
   }
 
 
   post(url, requestData = {}) {
-    return this.fetchJson(url, {method: 'POST'});
+    return this.fetchJson(url, {method: "POST", body: JSON.stringify(requestData)});
   }
 
   patch(url, requestData = {}) {
-    return this.fetchJson(url, {method: 'PATCH', body: JSON.stringify(requestData)});
+    return this.fetchJson(url, {method: "PATCH", body: JSON.stringify(requestData)});
   }
 
-  delete(url, requestData = {}) {
-    return this.fetchJson(url, {method: 'DELETE'});
+  delete(url) {
+    return this.fetchJson(url, {method: "DELETE"});
   }
 }
 export default new Fetcher();

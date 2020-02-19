@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'demo',
         'USER': 'gossipov',
         'PASSWORD': 'admin',
-        'HOST': '192.168.1.36',
+        'HOST': '127.0.0.1',
         'PORT': 5432
     }
 }

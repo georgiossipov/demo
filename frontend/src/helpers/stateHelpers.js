@@ -1,7 +1,13 @@
 import {hostProperties} from "../constants";
 import _ from "lodash";
 
-export function enrichHostData(hosts) {
+export const cloneState = (state, action) => {
+  const clonedState = _.cloneDeep(state);
+  const {payload} = action;
+  return {clonedState, payload};
+};
+
+export const enrichHostData = (hosts) => {
   const {fields} = hostProperties;
   return _.map(hosts, host => {
     const enrichedHost = {};
@@ -14,4 +20,4 @@ export function enrichHostData(hosts) {
     });
     return enrichedHost;
   });
-}
+};

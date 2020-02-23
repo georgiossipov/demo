@@ -56,11 +56,11 @@ class HostList extends Component {
               clearable
               placeholder="Command"
               options={commands}
-              value={host.host_command}
+              value={host.command}
               onChange={(event, data) => this.setCommand(host.id, data)}/>
           </Table.Cell>
           <Table.Cell>
-            <Button content="Execute" disabled={_.isNull(host.host_command)}
+            <Button content="Execute" disabled={_.isNull(host.command)}
                     onClick={() => this.executeCommand(host.id)}/>
             <Button content="Delete" color="red"
                     onClick={() => this.deleteHost(host.id)}/>

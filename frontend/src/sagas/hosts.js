@@ -26,7 +26,7 @@ export function* executeCommand(action) {
 
   const {hostId} = action.payload;
   const hosts = yield select(getHost);
-  const command = _.get(_.find(hosts, {id: hostId}), "host_command");
+  const command = _.get(_.find(hosts, {id: hostId}), "command");
   const property = hostProperties.commandProperties[command];
 
   try {
